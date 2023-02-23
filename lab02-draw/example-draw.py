@@ -44,7 +44,7 @@ arcade.draw_rectangle_filled(190, 230, 100, 100, arcade.color.BLACK_BEAN)
 arcade.draw_rectangle_filled(190, 280, 180, 5, arcade.color.BONE)
 
 # Draw second level of barn
-arcade.draw_polygon_filled([[20, 350],
+arcade.draw_polygon_filled([[200, 350],
                             [100, 470],
                             [280, 470],
                             [360, 340]],
