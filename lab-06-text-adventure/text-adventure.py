@@ -9,13 +9,13 @@ class room:
         self.west = west
 
 def main():
-    bedroom_2 = room("south bedroom", 3, None, 1, None)
-    south_hall = room("south hall", 4, None, 2, 0)
-    dining_room = room("dining room", 5, None, None, 1)
-    bedroom_1 = room("north bedroom", None, 0, 4, None)
-    north_hall = room("north hall", 6, 1, 5, 3)
-    kitchen = room("kitchen", None, 2, None, 4)
-    balcony = room("balcony", None, 4, None, None)
+    bedroom_2 = room("south bedroom, laying in bed as you wake up", 3, None, 1, None)
+    south_hall = room("south hall, waiting next to the door for someone to finally visit your lonely soul", 4, None, 2, 0)
+    dining_room = room("dining room, feeling hungry", 5, None, None, 1)
+    bedroom_1 = room("north bedroom, taking a grasp of your partner's diary while no one's home", None, 0, 4, None)
+    north_hall = room("north hall, the most boring place in this house", 6, 1, 5, 3)
+    kitchen = room("kitchen, being too lazy and stubborn to cook something", None, 2, None, 4)
+    balcony = room("balcony, feeling the polluted air of the city", None, 4, None, None)
     room_list = [bedroom_2,south_hall,dining_room,bedroom_1,north_hall,kitchen,balcony]
     current_room = 0
     done = True
