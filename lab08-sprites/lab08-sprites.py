@@ -9,6 +9,11 @@ SPRITE_SCALING_COCONUT = 0.015
 BANANA = 69
 COCONUT = 10
 
+POINT_SOUND = arcade.load_sound("banana.wav")
+HIT_SOUND = arcade.load_sound("coconut.wav")
+WIN_SOUND = arcade.load_sound("win.wav")
+LOSS_SOUND = arcade.load_sound("loss.wav")
+
 LARGO_PANTALLA = 600
 ANCHO_PANTALLA = 800
 
@@ -26,7 +31,6 @@ class MyGame(arcade.View):
         # Set up the player info
         self.player_sprite = arcade.Sprite("player_sprite.png", SPRITE_SCALING_PLAYER)
         self.window.score = 0
-
         # Don't show the mouse cursor
         self.window.set_mouse_visible(False)
         arcade.set_background_color(arcade.color.AMAZON)
@@ -92,6 +96,7 @@ class MyGame(arcade.View):
         # Loop through each colliding sprite, remove it, and add to the score.
         for banana in banana_hit_list:
             banana.remove_from_sprite_lists()
+            arcade.play_sound(POINT_SOUND, 0.35)
             self.window.score += 1
 
         if (len(self.banana_list) == 0) or (len(self.coconut_list) < 3):
@@ -100,22 +105,28 @@ class MyGame(arcade.View):
 
         for coconut in coconut_hit_list:
             coconut.remove_from_sprite_lists()
+            arcade.play_sound(HIT_SOUND)
             self.window.score -= 9
 
 class GameOverView(arcade.View):
     def __init__(self):
         super().__init__()
+        self.win = self.window.score > 0
 
     def on_show(self):
         arcade.set_background_color(arcade.color.BLACK)
         self.window.total_score += self.window.score
+        if self.win:
+            arcade.play_sound(WIN_SOUND, 0.7)
+        else:
+            arcade.play_sound(LOSS_SOUND, 1.5)
 
     def on_draw(self):
         arcade.start_render()
         """
         Draw "Game over" across the screen.
         """
-        if self.window.score>0:
+        if self.win:
             arcade.draw_text("Felicidades, has hecho feliz al mono", 15, 400, arcade.color.WHITE, 35)
             arcade.draw_text("Haz click para jugar al mono-juego", 150, 300, arcade.color.WHITE, 24)
         else:
