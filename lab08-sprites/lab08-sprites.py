@@ -34,7 +34,6 @@ class MyGame(arcade.View):
     def setup(self):
         """ Set up the game and initialize the variables. """
         # Set up the player
-        # Character image from kenney.nl
         self.player_sprite.center_x = 50
         self.player_sprite.center_y = 50
         self.player_list.append(self.player_sprite)
@@ -57,7 +56,12 @@ class MyGame(arcade.View):
         self.player_list.draw()
         self.banana_list.draw()
         self.coconut_list.draw()
+        center_x=75
+        for i in range(len(self.coconut_list)-2):
+            arcade.draw_circle_filled(center_x,LARGO_PANTALLA-20,7,arcade.color.RED)
+            center_x+=15
         # Put the text on the screen.
+        arcade.draw_text("Vidas:",10,LARGO_PANTALLA-25,arcade.color.WHITE,14)
         if (self.window.score > 0):
             output = "Mono-felicidad: " + str(self.window.score)
         else:
