@@ -11,13 +11,11 @@ import random
 import arcade
 from pyglet.math import Vec2
 
-ESCALA_ARBOL = 0.2
-ESCALA_CANELA = 0.03
-ESCALA_HUESO = 0.05
+SPRITE_SCALING = 0.5
 
 DEFAULT_SCREEN_WIDTH = 800
 DEFAULT_SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Canela-Juego"
+SCREEN_TITLE = "Sprite Move with Scrolling Screen Example"
 
 # How many pixels to keep as a minimum margin between the character
 # and the edge of the screen.
@@ -64,18 +62,17 @@ class MyGame(arcade.Window):
 
         self.camera_gui = arcade.Camera(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT)
 
-        #Score
-        self.score = 0
+
     def setup(self):
         """ Set up the game and initialize the variables. """
 
         # Sprite lists
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList()
-        self.bone_list = arcade.SpriteList()
 
         # Set up the player
-        self.player_sprite = arcade.Sprite("canela.png", ESCALA_CANELA)
+        self.player_sprite = arcade.Sprite(":resources:images/animated_characters/female_person/femalePerson_idle.png",
+                                           scale=0.4)
         self.player_sprite.center_x = 256
         self.player_sprite.center_y = 512
         self.player_list.append(self.player_sprite)
@@ -85,26 +82,15 @@ class MyGame(arcade.Window):
             for y in range(0, 1600, 64):
                 # Randomly skip a box so the player can find a way through
                 if random.randrange(5) > 0:
-                    wall = arcade.Sprite("tree.png", ESCALA_ARBOL)
+                    wall = arcade.Sprite(":resources:images/tiles/grassCenter.png", SPRITE_SCALING)
                     wall.center_x = x
                     wall.center_y = y
                     self.wall_list.append(wall)
-                else:
-                    bone = arcade.Sprite("bone.png",ESCALA_HUESO)
-                    bone.center_x = x
-                    bone.center_y = y
-                    self.bone_list.append(bone)
-        for x in range(200+105, 1650-105, 210):
-            for y in range(0, 1600, 128):
-                bone = arcade.Sprite("bone.png", ESCALA_HUESO)
-                bone.center_x = x
-                bone.center_y = y
-                self.bone_list.append(bone)
 
         self.physics_engine = arcade.PhysicsEngineSimple(self.player_sprite, self.wall_list)
 
         # Set the background color
-        arcade.set_background_color((154,209,124))
+        arcade.set_background_color(arcade.color.AMAZON)
 
     def on_draw(self):
         """ Render the screen. """
@@ -120,7 +106,6 @@ class MyGame(arcade.Window):
 
         # Draw all the sprites.
         self.wall_list.draw()
-        self.bone_list.draw()
         self.player_list.draw()
 
 
@@ -136,8 +121,7 @@ class MyGame(arcade.Window):
                                      40,
                                      arcade.color.ALMOND)
         text = f"Scroll value: ({self.camera_sprites.position[0]:5.1f}, " \
-               f"{self.camera_sprites.position[1]:5.1f}) " \
-                f"Score: {self.score}"
+               f"{self.camera_sprites.position[1]:5.1f})"
         arcade.draw_text(text, 10, 10, arcade.color.BLACK_BEAN, 20)
 
     def on_key_press(self, key, modifiers):
@@ -189,12 +173,8 @@ class MyGame(arcade.Window):
 
         self.scroll_to_player()
 
-        #Bone hit
-        bone_hit_list = arcade.check_for_collision_with_list(self.player_sprite, self.bone_list)
 
-        for bone in bone_hit_list:
-            bone.remove_from_sprite_lists()
-            self.score += 1
+
     def scroll_to_player(self):
 
         """
